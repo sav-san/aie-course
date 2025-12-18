@@ -47,11 +47,12 @@ uv run eda-cli report data/example.csv --out-dir reports
 - `--encoding` – кодировка (по умолчанию `utf-8`);
 - `--out-dir` - каталог для отчета (по умолчанию `reports`);
 - `--max-hist-columns` - максимум числовых колонок для гистограмм (по умолчанию `6`)
+- `--top-k-categories` - сколько top-значений выводить для категориальных признаков (по умолчанию `5`)
 - `--title` - заголовок файла reports (по умолчанию `REPORT`)
 
 Пример вызова: 
 ```bash
-uv run eda-cli report data/example.csv --out-dir reports --title "ABOBA" --max-hist-columns 3
+uv run eda-cli report data/example.csv --out-dir reports --title "ABOBA" --max-hist-columns 3 --top-k-categories 2
 ```
 
 В результате в каталоге `reports/` появятся:

@@ -67,7 +67,9 @@ def report(
     sep: str = typer.Option(",", help="Разделитель в CSV."),
     encoding: str = typer.Option("utf-8", help="Кодировка файла."),
     max_hist_columns: int = typer.Option(6, help="Максимум числовых колонок для гистограмм."),
-    title: str = typer.Option("REPORT",help="Заголовок файла report")) -> None:
+    title: str = typer.Option("REPORT",help="Заголовок файла report"),
+    top_k_categories: int = typer.Option(5,help="Cколько top-значений выводить для категориальных признаков"),
+) -> None:
     """
     Сгенерировать полный EDA-отчёт:
     - текстовый overview и summary по колонкам (CSV/Markdown);
@@ -86,7 +88,11 @@ def report(
     summary_df = flatten_summary_for_print(summary)
     missing_df = missing_table(df)
     corr_df = correlation_matrix(df)
-    top_cats = top_categories(df)
+    ##Топ-категории
+    if top_k_categories > 0:
+        top_cats = top_categories(df, top_k=top_k_categories)
+    else:
+        top_cats = {}
 
     # 2. Качество в целом
     quality_flags = compute_quality_flags(summary, missing_df,df)
@@ -97,7 +103,8 @@ def report(
         missing_df.to_csv(out_root / "missing.csv", index=True)
     if not corr_df.empty:
         corr_df.to_csv(out_root / "correlation.csv", index=True)
-    save_top_categories_tables(top_cats, out_root / "top_categories")
+    if top_k_categories > 0 and top_cats:
+        save_top_categories_tables(top_cats, out_root / "top_categories")
 
     # 4. Markdown-отчёт
     md_path = out_root / "report.md"
