@@ -55,11 +55,9 @@ def summarize_dataset(
     """
     n_rows, n_cols = df.shape
     columns: List[ColumnSummary] = []
-
     for name in df.columns:
         s = df[name]
         dtype_str = str(s.dtype)
-
         non_null = int(s.notna().sum())
         missing = n_rows - non_null
         missing_share = float(missing / n_rows) if n_rows > 0 else 0.0
