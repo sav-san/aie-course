@@ -1,0 +1,4 @@
+# Ссылка
+https://www.kaggle.com/code/ibrahimserouis99/one-piece-image-classifier-notebook
+# Подвязывание
+DATASET_PATH = kagglehub.dataset_download("ibrahimserouis99/one-piece-image-classifier")+"/Data/Data"
